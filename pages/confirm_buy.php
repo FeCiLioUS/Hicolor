@@ -10,7 +10,6 @@ if($LOGIN_OBJ["LOG_TAB"]!=1){
     $Msg=urlencode("您尚未登入，請先登入會員！");
     ERRO_HEAD($Msg);
 }
-
 //購物者身份;
 if($LOGIN_OBJ['LOG_PRVL']==2){
     $LOG_PRVL="A";
