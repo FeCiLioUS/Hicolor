@@ -70,7 +70,7 @@ $buyer= $LOGIN_OBJ['LOGIN_ID'];
 
   $mother=$LOG_PRVL.sprintf("%04d",$CHECK_BUYED_R[1][SEQ_NBR]);  
   //echo $mother;
-   if(!is_dir("../updata/".$mother."/")){ 
+  if(!is_dir("../updata/".$mother."/")){ 
         mkdir("../updata/".$mother."/", 0777);
   }
   if(!is_dir("../updata/".$mother."/".$_POST[SEQ]."/")){

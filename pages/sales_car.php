@@ -23,16 +23,17 @@ $hicolor-> assign('memberSN', $LOG_PRVL.sprintf("%05d",$buyer));
 $CHECK_BUYED_R=SEL("BUY_CHECK","*","SALES_CAR","BUYER = ".$buyer." && FINISH_TAB = 0","","");
 //查詢購物內容;
 $BUYED_DETAIL_R=SEL("BUY_DETAIL","*","SALES_CAR_DETAIL","SALES_SEQ = ".$CHECK_BUYED_R[1][SEQ_NBR],"SEQ_NBR asc","");
-$butyedInfo= array();
 $hicolor-> assign('saleTotal', $BUYED_DETAIL_R[0]);
+$butyedInfo = array();
+$transTotal = 0;
+$BUY_SUB_TOTAL= 0;
 if($CHECK_BUYED_R[0] == 0){
 	$hicolor-> assign('hasBasket', false);
 	$hicolor-> assign('subTotal', 0);
 	$BUYED_DETAIL_R[0]=0;
 }else{
 	$hicolor-> assign('hasBasket', true);
-	$hicolor-> assign('saleSN', $LOG_PRVL.sprintf("%04d", $CHECK_BUYED_R[1][SEQ_NBR]));
-	$BUY_SUB_TOTAL= 0;
+	$hicolor-> assign('saleSN', $LOG_PRVL.sprintf("%04d", $CHECK_BUYED_R[1][SEQ_NBR]));	
 	$buyedDetail= array();	
 	$tans= array();
 	if($BUYED_DETAIL_R[0] == 1){
@@ -78,61 +79,58 @@ if($CHECK_BUYED_R[0] == 0){
 		);
 		array_push($butyedInfo, $newData);
 	}
-	$hicolor-> assign('subTotal', $BUY_SUB_TOTAL);
-	$hicolor-> assign('butyedInfo', $butyedInfo);
-}
-//調出運費設定;
-$TRANS_R=SEL("TRANS_SET","*","TRANS_DATA","SEQ_NBR != 1 && SEQ_NBR != 2","","");
-$TRANS_PRICE= array();
-$TRANS_UP= array();
-if($TRANS_R[0] == 0){	
-}else{
-	if($TRANS_R[0] == 1){
-		$transData= $TRANS_R[1];
-		$TRANS_R[1]= array($transData);
-	}
-	$t=0;
-	foreach($TRANS_R[1] as $KEY => $VALUE){
-		//比對運費比數;
-		//echo $VALUE[SEQ_NBR]."<br>";
-		$g=0;
-		foreach($tans as $KEY2=>$VALUE2){
-			//echo $VALUE2."<br>";
-			if($VALUE2 == $VALUE[SEQ_NBR]){
-				$g++;
-				$TRANS_NUM[$t]=$g;
-			}else{
-				$TRANS_NUM[$t]=$TRANS_NUM[$t]+0;
-			}
+	//調出運費設定;
+	$TRANS_R=SEL("TRANS_SET","*","TRANS_DATA","SEQ_NBR != 1 && SEQ_NBR != 2","","");
+	$TRANS_PRICE= array();
+	$TRANS_UP= array();
+	if ($TRANS_R[0] > 0) {
+		if($TRANS_R[0] == 1){
+			$transData= $TRANS_R[1];
+			$TRANS_R[1]= array($transData);
 		}
-		$TRANS_PRICE[$t][price]=$VALUE[TRANS_PRICE];
-		$TRANS_UP[$t][up]=$VALUE[TRANS_UP_NUM];
-		$t++;
+		$t=0;
+		foreach($TRANS_R[1] as $KEY => $VALUE){
+			//比對運費比數;
+			//echo $VALUE[SEQ_NBR]."<br>";
+			$g=0;
+			foreach($tans as $KEY2=>$VALUE2){
+				//echo $VALUE2."<br>";
+				if($VALUE2 == $VALUE[SEQ_NBR]){
+					$g++;
+					$TRANS_NUM[$t]=$g;
+				}else{
+					$TRANS_NUM[$t]=$TRANS_NUM[$t]+0;
+				}
+			}
+			$TRANS_PRICE[$t][price]=$VALUE[TRANS_PRICE];
+			$TRANS_UP[$t][up]=$VALUE[TRANS_UP_NUM];
+			$t++;
+		}
+	}
+	//echo "共級數有".count($TRANS_NUM)."個<br>";
+	foreach($TRANS_NUM as $KEY=>$VALUE){
+		$up_num=0;
+		//echo "級數".$KEY."====有".$TRANS_NUM[$KEY]."筆,升級限制為:".$TRANS_UP[$KEY][up].",此級金額單價為".$TRANS_PRICE[$KEY][price]."<br>";
+		if($TRANS_NUM[$KEY] >= $TRANS_UP[$KEY][up] && $TRANS_UP[$KEY][up] != "" && $TRANS_UP[$KEY][up] > 1){
+			 //echo "-------共有".$TRANS_NUM[$KEY]."筆,升級限制:".$TRANS_UP[$KEY][up]."<br>";
+			 $up_num=floor($TRANS_NUM[$KEY]/$TRANS_UP[$KEY][up]);
+			 $TRANS_NUM[$KEY]=$TRANS_NUM[$KEY]-($up_num*$TRANS_UP[$KEY][up]);
+			 $transTotal=$transTotal+($TRANS_NUM[$KEY]*$TRANS_PRICE[$KEY][price]);			 
+			 //echo "-------修改後級數".$KEY."====有".$TRANS_NUM[$KEY]."筆，金額為".$transTotal."<br>";
+			 //echo "-------下一次原本有:".$TRANS_NUM[$KEY+1]."筆<br>";
+			 $TRANS_NUM[$KEY+1]=$TRANS_NUM[$KEY+1]+$up_num;
+			 //echo "-------下一級為".$TRANS_NUM[$KEY+1]."個<br>";
+		}else{
+			 $transTotal=$transTotal+($TRANS_NUM[$KEY]*$TRANS_PRICE[$KEY][price]);
+			 //echo "-------修改後級數".$KEY."====有".$TRANS_NUM[$KEY]."筆，金額為".$transTotal."<br>";
+		}
 	}
 }
-//echo "共級數有".count($TRANS_NUM)."個<br>";
-$transTotal=0;
-foreach($TRANS_NUM as $KEY=>$VALUE){
-	$up_num=0;
-	//echo "級數".$KEY."====有".$TRANS_NUM[$KEY]."筆,升級限制為:".$TRANS_UP[$KEY][up].",此級金額單價為".$TRANS_PRICE[$KEY][price]."<br>";
-	if($TRANS_NUM[$KEY] >= $TRANS_UP[$KEY][up] && $TRANS_UP[$KEY][up] != "" && $TRANS_UP[$KEY][up] > 1){
-		 //echo "-------共有".$TRANS_NUM[$KEY]."筆,升級限制:".$TRANS_UP[$KEY][up]."<br>";
-		 $up_num=floor($TRANS_NUM[$KEY]/$TRANS_UP[$KEY][up]);
-		 $TRANS_NUM[$KEY]=$TRANS_NUM[$KEY]-($up_num*$TRANS_UP[$KEY][up]);
-		 $transTotal=$transTotal+($TRANS_NUM[$KEY]*$TRANS_PRICE[$KEY][price]);			 
-		 //echo "-------修改後級數".$KEY."====有".$TRANS_NUM[$KEY]."筆，金額為".$transTotal."<br>";
-		 //echo "-------下一次原本有:".$TRANS_NUM[$KEY+1]."筆<br>";
-		 $TRANS_NUM[$KEY+1]=$TRANS_NUM[$KEY+1]+$up_num;
-		 //echo "-------下一級為".$TRANS_NUM[$KEY+1]."個<br>";
-	}else{
-		 $transTotal=$transTotal+($TRANS_NUM[$KEY]*$TRANS_PRICE[$KEY][price]);
-		 //echo "-------修改後級數".$KEY."====有".$TRANS_NUM[$KEY]."筆，金額為".$transTotal."<br>";
-	}
-}
-//echo $transTotal;
 $total= $transTotal + $BUY_SUB_TOTAL;
-$hicolor-> assign('total', $total);
+$hicolor-> assign('subTotal', $BUY_SUB_TOTAL);
+$hicolor-> assign('butyedInfo', $butyedInfo);
 $hicolor-> assign('transTotal', $transTotal);
+$hicolor-> assign('total', $total);
 $hicolor-> assign('MODE', $_GET[MODE]);
 $hicolor-> assign('SUBKIND', $_GET[SUBKIND]);
 $hicolor-> assign('pageTitle', '購物車');
