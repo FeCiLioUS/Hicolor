@@ -315,7 +315,7 @@
    
     //A.寫入;
 	
-	  function insertdata ($aa,$bb,$TABLE,$Msg,$brea)
+	  function insertdata ($aa,$bb,$TABLE,$Msg = "", $brea = "")
       {      
           $data_insert="insert into ".$TABLE." (".$aa.") values (".$bb.")";	   
 		 // echo $data_insert;
@@ -666,7 +666,7 @@
 	   $m=0;
 	   $e=0;
 	 
-	   foreach_data($OK_NAME);
+	   //foreach_data($OK_NAME);
 	   foreach($OK_NAME as $KEY=>$value){     
            if($value==""){	     
 	            $ERRO_SEQ=$ERRO_SEQ."及".($m+1);
@@ -763,7 +763,7 @@
 			if($PAGE){
 				header("location:".OK_HEAD_URL."?".$PAGE."&Msg=".$Msg.$INF);
 			}else{
-				echo "OK";
+				//echo "OK";
 				header("location:".OK_HEAD_URL."?Msg=".$Msg.$INF);
 			}	      
 			exit();
