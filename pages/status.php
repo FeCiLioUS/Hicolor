@@ -644,6 +644,8 @@ foreach ($history as $key => $value) {
 $seach_display_con="<td height=\"35\"><div align=\"center\" class=\"style26\"><div align=\"center\"><img src=\"arrowhead_small_bred.jpg\" width=\"9\" height=\"9\"></div></div></td><td height=\"35\" class=\"topic\">查詢結果：</td><td height=\"35\" class=\"info\">&nbsp;</td></tr><tr><td height=\"10\" colspan=\"4\"><div align=\"center\"><table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr><td width=\"3%\">&nbsp;</td><td width=\"97%\"><table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr><td><div align=\"left\"><span class=\"info\">你一共查詢到 <span class=\"style48\">".$seach_total."</span> 筆資料 </span><select name=\"search_result\" style=\"font-size:9pt;width:100px;height:20px;\" onChange=\"SELE_RESULT(this.options[this.selectedIndex].value);\"><option value=\"0\">--選擇編號--</option>".$seach_sn_list."</select></div></td></tr></table></td></tr></table><span class=\"style46\"></span></div></td></tr>";
 */
 $hicolor-> assign('pageTitle', '交易記錄');
+$hicolor-> assign('memberSN', $LOG_PRVL.sprintf("%05d",$buyer));
+$hicolor-> assign('List_mode', $List_mode);
 $hicolor-> assign("contentPath", "../templates/status.tpl");
 $hicolor-> display("standard_template.tpl");
 ?>
