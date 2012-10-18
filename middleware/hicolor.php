@@ -23,7 +23,7 @@ class Hicolor extends Smarty{
 		}
 		//載入產品項目;
 		include($__DIR__."/../middleware/PRODUCT_LIST.php");
-		$this-> FREE_MODE= $FREE_MODE;
+		$this-> FREE_MODE = $FREE_MODE;
 		$this-> assign("productArray", $productArray);
 		//載入HEADER模組
 		$this-> assign("headerPath", "../templates/header.tpl");
