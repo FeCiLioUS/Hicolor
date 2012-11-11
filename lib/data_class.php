@@ -152,13 +152,13 @@
 	   }else if($LOG_PRVL_R[1][RECEIPT_addressr]==1){
 	       define("LOG_addressr",$LOG_PRVL_R[1][addressr]);
 	   }
-	   define("LOG_RECEIPT_TITLE",$LOG_PRVL_R[1][RECEIPT_TITLE]);
-	   if($LOG_PRVL_R[1][RECEIPT_SN]==0){
-	       $LOG_PRVL_R[1][RECEIPT_SN]="";
+	   define("LOG_RECEIPT_TITLE",$LOG_PRVL_R[1]["RECEIPT_TITLE"]);
+	   if($LOG_PRVL_R[1]["RECEIPT_SN"]==0){
+	       $LOG_PRVL_R[1]["RECEIPT_SN"]="";
 	   }
-	   define("LOG_RECEIPT_SN",$LOG_PRVL_R[1][RECEIPT_SN]);
-	   define("LOG_RECEIPT_TYPE",$LOG_PRVL_R[1][RECEIPT_TYPE]);	  
-	   define("LOG_RECEIPT_COMPANY_NM",$LOG_PRVL_R[1][comany_nm]);
+	   define("LOG_RECEIPT_SN",$LOG_PRVL_R[1]["RECEIPT_SN"]);
+	   define("LOG_RECEIPT_TYPE",$LOG_PRVL_R[1]["RECEIPT_TYPE"]);	  
+	   define("LOG_RECEIPT_COMPANY_NM",$LOG_PRVL_R[1]["comany_nm"]);
 	    $logInObj= array(
 			'LOGIN_ID' => $LOGIN_ID,
 			'LOG_TAB' => LOG_TAB,
