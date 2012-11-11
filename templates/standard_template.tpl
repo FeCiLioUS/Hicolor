@@ -11,7 +11,9 @@
 印刷購物網-HiColor-高品質合版印刷
 {/if}
 </title>
+<link rel="stylesheet" type="text/css" href="../lib/framework/jquery/jquery-ui-1.9.0.custom/css/ui-lightness/jquery-ui-1.9.0.custom.min.css">
 <script src="../lib/framework/jquery/jquery-1.6.4.js"></script>
+<script src="../lib/framework/jquery/jquery-ui-1.9.0.custom/js/jquery-ui-1.9.0.custom.min.js"></script>
 <script src="../js/jquery-text-overflow/jquery.text-overflow.js"></script>
 <script src="../js/jquery-getUrlParam/jquery.getUrlParam.js"></script>
 <script src="../js/jquery-cookie/jquery.cookie.js"></script>

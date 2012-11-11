@@ -157,8 +157,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				{if $hasBasket == true}
-					{foreach from=$butyedInfo key="buyKey" item="buyItem" }
+				{if $hasBasket == true}					
+					{foreach from=$buyInfo key="buyKey" item="buyItem"}						
 						<tr>
 							<td height="30">{$buyKey+1}</td>
 							<td height="30" title="{$buyItem.kindName}">
@@ -236,7 +236,11 @@ var totalRows= {$saleTotal};
 var saleSN= '{$saleSN}';
 var subTotal= {$subTotal};
 var transTotal= {$transTotal};
-var hasBaset= {$hasBasket};
+{if $hasBasket == true}
+var hasBaset= true;
+{else}
+var hasBaset= false;
+{/if}
 {literal}
 function trans(){
     var trans_ty=document.sales.trans_ty.value; 
