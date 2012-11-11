@@ -15,7 +15,6 @@ if($LOGIN_OBJ['LOG_PRVL']==2){
     $LOG_PRVL="A";
 }
 $buyer= $LOGIN_OBJ['LOGIN_ID'];
-$hicolor-> assign('memberSN', $LOG_PRVL.sprintf("%05d",$buyer));
 //查詢購物車;
 $CHECK_BUYED_R=SEL("BUY_CHECK","*","SALES_CAR","BUYER = ".$buyer." && FINISH_TAB = 0","","");
 //查詢購物內容;
@@ -27,9 +26,7 @@ if($CHECK_BUYED_R[0]==0){
 	$Msg=urlencode("您必須要有一筆以上的購物才能結帳喔！");
 	header("location:sales_car.php?Msg=".$Msg);
 	exit();
-}else{
-	$hicolor-> assign('hasBasket', true);
-	$hicolor-> assign('saleSN', $LOG_PRVL.sprintf("%04d", $CHECK_BUYED_R[1][SEQ_NBR]));
+}else{	
 	$BUY_SUB_TOTAL= 0;
 	$buyedDetail= array();
 	$tans= array();
@@ -71,6 +68,8 @@ if($CHECK_BUYED_R[0]==0){
 		);
 		array_push($butyedInfo, $newData);
 	}
+	$hicolor-> assign('hasBasket', true);
+	$hicolor-> assign('saleSN', $LOG_PRVL.sprintf("%04d", $CHECK_BUYED_R[1][SEQ_NBR]));
 }
 $hicolor-> assign('subTotal', $BUY_SUB_TOTAL);
 $hicolor-> assign('butyedInfo', $butyedInfo);
@@ -123,6 +122,7 @@ foreach($TRANS_NUM as $KEY=>$VALUE){
 }
 //echo $transTotal;
 $total= $transTotal + $BUY_SUB_TOTAL;
+$hicolor-> assign('memberSN', $LOG_PRVL.sprintf("%05d",$buyer));
 $hicolor-> assign('total', $total);
 $hicolor-> assign('transTotalSelected', $_GET[TRANS]);
 $hicolor-> assign('transTotal', $transTotal);
@@ -137,7 +137,6 @@ $receiptTypeOptions= array(
 	'2' => '二聯式發票',
 	'3' => '三聯式發票'
 );
-
 if($LOGIN_OBJ['LOG_RECEIPT_TYPE'] == 2){
 	$receiptTypeSelected= '2';
 }else if($LOGIN_OBJ['LOG_RECEIPT_TYPE'] == 3){
