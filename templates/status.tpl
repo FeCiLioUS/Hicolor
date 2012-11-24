@@ -1,15 +1,8 @@
 <script>
 {literal}
-function MM_showHideLayers() { //v6.0
-  var i,p,v,obj,args=MM_showHideLayers.arguments;
-  for (i=0; i<(args.length-2); i+=3) if ((obj=MM_findObj(args[i]))!=null) { v=args[i+2];
-    if (obj.style) { obj=obj.style; v=(v=='show')?'visible':(v=='hide')?'hidden':v; }
-    obj.visibility=v; }
-}
-function MM_preloadImages() { //v3.0
-  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
-    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
-    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
 }
 function MM_swapImgRestore() { //v3.0
   var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
@@ -20,157 +13,6 @@ function MM_findObj(n, d) { //v4.01
   if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
   for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
   if(!x && d.getElementById) x=d.getElementById(n); return x;
-}
-function upload_file(seq,nbr){
-   // window.open("status_upload_files_num.php?STATUS=HISTORY&seq="+seq+"if($_GET[MODE]){ echo "&MODE=".$_GET[MODE]."&Keyword=".$Keyword."&Caption=".$_GET[Caption]; }else if($_POST[MODE]){ echo "&MODE=".$_POST[MODE]."&Keyword=".$Keyword."&Caption=".$_POST[Caption]; }  if($_GET[SN]){ echo "&SN=".$_GET[SN]."&DISPLAY=".$_GET[DISPLAY]; } &mbr="+nbr,"Upload"+nbr,"toolbar=no,location=no,directory=yes,status=yes,scrollbars=yes,resizable=no,width=418,height=165");
-}
-function upload_fix(seq,nbr){
-   // window.open("status_upload_fix.php?STATUS=HISTORY&seq="+seq+"if($_GET[MODE]){ echo "&MODE=".$_GET[MODE]."&Keyword=".$Keyword."&Caption=".$_GET[Caption]; }else if($_POST[MODE]){ echo "&MODE=".$_POST[MODE]."&Keyword=".$Keyword."&Caption=".$_POST[Caption]; }  if($_GET[SN]){ echo "&SN=".$_GET[SN]."&DISPLAY=".$_GET[DISPLAY]; } &mbr="+nbr,"Upload"+nbr,"toolbar=no,location=no,directory=yes,status=yes,scrollbars=yes,resizable=no,width=620,height=335");
-}
-function MM_swapImage() { //v3.0
-  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
-   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
-}
-function data_check(){
-  var search_typ=document.sales_list.search_typ.value;
-  var search_aq=document.sales_list.detail.value;
-  var Caption=document.sales_list.Caption.value;  
-  if(search_typ==0){
-      alert("需選擇查詢方式！");
-	  document.sales_list.search_typ.focus();
-	  document.sales_list.MODE.value="SEARCH";
-	  return false;
-  }else if(search_typ==1 && search_aq==0){
-      alert("需選擇訂單編號！");
-	  document.sales_list.detail.focus();
-	  document.sales_list.MODE.value="SEARCH";
-	  return false;
-  }else if(search_typ==2){
-      if(Caption.split("/",3).length!=3){
-	      alert("請輸入正確的日期格式！");
-		  document.sales_list.Caption.focus();
-	      return false;
-	  }
-      var YMD=Caption.split("/",3);
-       if(YMD[1].substr(0,1)==0){
-          YMD[1]=YMD[1].substr(1,1);
-	   }
-	  // document.write(YMD[1]);
-      if(YMD[0]<1911 || isNaN(YMD[0])){
-	      alert("請輸入正確的年份！");
-		  document.sales_list.Caption.focus();
-	      return false;
-	  }else if(YMD[1]<1 || YMD[1]>12 || isNaN(YMD[1])){
-	      alert("請輸入正確的月份！");
-		  document.sales_list.Caption.focus();
-	      return false;
-	  }else if(YMD[1]==1 || YMD[1]==3  || YMD[1]==5  || YMD[1]==7  || YMD[1]==8  || YMD[1]==10  || YMD[1]==12){
-	      if(YMD[2]<1 || YMD[2]>31 || isNaN(YMD[2])){
-		      alert("請輸入正確的日期！");
-			  document.sales_list.Caption.focus();
-	          return false;
-		  }else{
-	          document.sales_list.MODE.value="DATE_SEARCH";
-		      document.sales_list.submit();
-		  }
-	  }else if(YMD[1]==2){ 
-	      if(YMD[2]<1 || YMD[2]>29 || isNaN(YMD[2])){
-		      alert("請輸入正確的日期！");
-			  document.sales_list.Caption.focus();
-	          return false;
-		  }else{
-	          document.sales_list.MODE.value="DATE_SEARCH";
-		      document.sales_list.submit();
-		  }
-	  }else if(YMD[1]==4 || YMD[1]==6 || YMD[1]==9 || YMD[1]==11){
-	      if(YMD[2]<1 || YMD[2]>30 || isNaN(YMD[2])){
-		      alert("請輸入正確的日期！");
-			  document.sales_list.Caption.focus();
-	          return false;
-		  }else{
-		  	  document.sales_list.MODE.value="DATE_SEARCH";
-		      document.sales_list.submit();
-		  }
-	  }
-  }else if(search_typ==3){
-      if(!Caption){
-	       alert("請輸入檔案名稱！");
-		   document.sales_list.Caption.focus();
-	       return false;
-	  }else if(Caption.match(/[\!\@\#\$\%\^\&\*\(\)\)\=\~\`\\\?\/\,\.\>\<\"\'\:\;]/g)){
-	       alert("請勿輸入任何符號！");
-		   document.sales_list.Caption.focus();
-	       return false;
-	  }else{
-	  	   document.sales_list.MODE.value="FILES_SEARCH";
-	       document.sales_list.submit();
-	  } 
-  }else if(search_typ==4){
-      var money=Caption.split("~",2)
-      if(money[0]<0 || isNaN(money[0])){
-	       alert("請輸入金額範圍！例：100~500");
-		   document.sales_list.Caption.focus();
-	       return false;
-	  }else if(money[1]<0 || isNaN(money[1])){
-	       alert("請輸入金額範圍！例：100~500");
-		   document.sales_list.Caption.focus();
-	       return false;
-	  }else{
-	  	   document.sales_list.MODE.value="PRICE_SEARCH";
-	       document.sales_list.submit();
-	  }
-  }else if(search_typ==5){
-      if(Caption.split("/",2).length!=2){
-	      alert("請輸入正確的月份格式！");
-		  document.sales_list.Caption.focus();
-	      return false;
-	  }
-      var YMD=Caption.split("/",2);
-       if(YMD[1].substr(0,1)==0){
-          YMD[1]=YMD[1].substr(1,1);
-	   }
-	  // document.write(YMD[1]);
-      if(YMD[0]<1911 || isNaN(YMD[0])){
-	      alert("請輸入正確的年份！");
-		  document.sales_list.Caption.focus();
-	      return false;
-	  }else if(YMD[1]<1 || YMD[1]>12 || isNaN(YMD[1])){
-	      alert("請輸入正確的月份！");
-		  document.sales_list.Caption.focus();
-	      return false;
-	  }else{
-		  	  document.sales_list.MODE.value="MONTH_SEARCH";
-		      document.sales_list.submit();
-	  }
-  }else{
-    // document.write("bgfbsfb");
-	  document.sales_list.MODE.value="SEARCH";
-      document.sales_list.submit();
-  }
-}
-function SELE_RESULT(seq){
-   location.href="status.php?MODE=echo $S_MO;&Caption=echo $S_CAP;&SN="+seq+"&DISPLAY=1";
-}
-function aq_select(qa){
-//document.write(qa);
-   var typ1=document.sales_list.search_typ.options[1].selected;
-  // var typ2=document.sales_list.search_typ.options[2].selected;
-  // var typ3=document.sales_list.search_typ.options[4].selected;
-   if(typ1==true){
-      location.href="status.php?MODE=SN&Keyword="+qa;
-   }
-}
-function KEYWD(){  
-   var typ2=document.sales_list.search_typ.options[2].selected;
-   var typ4=document.sales_list.search_typ.options[4].selected;
-   if(typ2==true){
-    //  document.sales_list.Caption.value="";
-   }else if(typ4==true){
-    // document.sales_list.Caption.value="";
-   }
-}
-function ok(){
-document.confi.submit();
 }
 function Msg(Msg){
     if(Msg.length!=0){
@@ -189,64 +31,6 @@ body {
 	margin-bottom: 0px;
 	background-color: #999999;
 }
-/*
-
-.info {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	letter-spacing: 2px;
-	color: #333333;
-}
-.menu {
-	font-family: "Times New Roman", Times, serif;
-	font-size: 11px;
-	letter-spacing: 4px;
-	color: #999999;
-	font-variant: normal;	
-}
-.line {
-	clear: left;
-	height: 2px;
-	width: 100px;
-	word-spacing: 10em;
-	display: block;
-	margin: 40px;
-	padding: 40px;
-}
-.contents {
-	font-family: "Times New Roman", Times, serif;
-	font-size: 12px;
-	letter-spacing: 3px;
-	color: #666666;
-	line-height: 17px;
-}
-.topic {
-	font-family: "Times New Roman", Times, serif;
-	font-size: 15px;
-	letter-spacing: 2px;
-}
-.link_num {
-	font-family: "Times New Roman", Times, serif;
-	font-size: 12px;
-	color: #666666;
-	text-decoration: none;
-	letter-spacing: 3px;
-}
-.PS {
-	font-family: "Times New Roman", Times, serif;
-	font-size: 12px;
-	position: static;
-	width: 260px;
-	clip: rect(auto,auto,auto,auto);
-}
-.menu1 {	
-	font-family: "Times New Roman", Times, serif;
-	font-size: 11px;
-	letter-spacing: 4px;
-	color: #999999;
-	font-variant: normal;
-	line-height: 20px;
-}*/
 .wrapper .mainContent .middleContent {
 	float: left;
     padding: 30px 20px;
@@ -312,12 +96,19 @@ body {
 	color: #990033;
 	font-weight: bold;
 }
+.ui-widget {
+    font-size: 12px;
+}
+.ui-datepicker table {
+    border-collapse: collapse;
+    font-size: 12px;
+}
 {/literal}
 </style>
 <div class="title">
 	<img src="../images/pers_tile_history.jpg" width="153" height="27">
 </div>
-<form action="status.php" method="post" name="sales_list" onSubmit="return data_check();">	
+<form action="status.php" method="post" id="sales_list" name="sales_list">	
 	<ul class="content">
 		<li style="vertical-align:middle;">
 			<div class="contentHeader">
@@ -326,25 +117,32 @@ body {
 				<span class="saleCarInfo">會員編號：{$memberSN}</span>
 			</div>
 			<div class="contentDetails">
-				{html_options name=search_typ options=$queryModes onChange="search_type();" class="search_typ" style="vertical-align:middle; font-size:12px;height:24px;"}
-				<select name="detail" class="detail" style="vertical-align:middle; font-size:12px;height:24px;" onChange="aq_select(this.options[this.selectedIndex].value);">
-					<option value="0">-------選擇參數-------</option>
-				</select>		
-				<input name="送出" type="submit" id="送出" value="送出" style="vertical-align:middle; font-size:10pt; padding:0; height:26px;" />
+				{html_options name=search_typ options=$queryModes class="search_typ" style="vertical-align:middle; font-size:12px;height:24px;"}
+				<select name="detail" class="detail" style="vertical-align:middle; font-size:12px;height:24px;" ></select>		
+				<input name="send" type="button" id="send" value="送出" style="vertical-align:middle; font-size:10pt; padding:0; height:26px; display: none;" />
 				<input type="hidden" name="MODE">
 			</div>
 		</li>
 		{if $DISPLAY_RESULT == 1}
-		<li style="vertical-align:middle;">
+		<li class="DISPLAY_RESULT" style="vertical-align:middle;">
 			<div class="contentDetails">
 				<span class="saleCarTitle">查詢結果</span>	
 				<span class="info">你一共查詢到 <span class="count">{$searchTotal}</span> 筆資料 </span>
-				<select name="search_result" style="vertical-align: middle; font-size:12px;width:100px;height:24px;" onChange="SELE_RESULT(this.options[this.selectedIndex].value);">
-				<option value="0">--選擇編號--</option>".$seach_sn_list."</select>						
+				{if $SN_LIST|@count > 1}				
+				{html_options name=search_result options=$SN_LIST selected=$search_result class="search_result" style="vertical-align:middle; font-size:12px;height:24px;"}
+				{/if}
 			</div>			
 		</li>
+		<script>
+		{literal}
+			$(function (){				
+				search_result = $(".search_result").bind('change', SELE_RESULT);
+			});
+		{/literal}
+		</script>
 		{/if}
-		<li style="vertical-align:middle;">
+		{if $DISPLAY_BUY_LIST == 1}
+		<li class="DISPLAY_BUY_LIST" style="vertical-align:middle;">
 			<div class="contentHeader">
 				<img src="../images/arrowhead_bred.jpg" width="14" height="13">
 				<span class="saleCarTitle">訂單資訊：<span class="saleCarInfo">{$listMode}</span></span>			
@@ -369,8 +167,7 @@ body {
 							<td width="56" height="35">檔案上傳</td>
 							<td width="60" height="35">價　格</td>
 						</tr>
-					</thead>
-					{if $DISPLAY_BUY_LIST == 1}
+					</thead>					
 					<tbody>	
 						{if $resultTotal > 0}
 							{foreach from=$resultBuyList item=item name=BuyLists}
@@ -412,12 +209,13 @@ body {
 							<tr valign="middle" class="PS" bgcolor="#E2E2E2"><td height="35" colspan="8">查無任何交易記錄！</td></tr>
 						{/if}
 					</tbody>
-					{/if}				
+								
 				</table>				 
-			</div>
+			</div>			
 		</li>
+		{/if}
 		{if $DISPLAY_BUY_LIST == 1 && $resultTotal > 0}			
-		<li style="vertical-align:middle;">
+		<li class="DISPLAY_BUY_STATUS" style="vertical-align:middle;">
 			<div class="contentHeader">
 				<img src="../images/arrowhead_bred.jpg" width="14" height="13">
 				<span class="saleCarTitle">訂單處理狀況：</span>
@@ -530,57 +328,252 @@ body {
 			</div>
 		</li>
 		{/if}
-	</ul>	
-</form>          
+	</ul>
+</form>
 <script>
-var date = '{$date}',
-	month = '{$month}',
-	queryMode = {$queryMode},
 {literal}
-	search_typ = $(".search_typ"),
-	detail = $(".detail"),
-	Caption = $(' <input name="Caption" class="caption" type="text" style="vertical-align:middle; padding:0; margin-left: 3px; width:150px; font-size:12px; height:22px; line-height:22px;" onFocus="KEYWD();" size="8"/>').val("").attr("disabled", true),
-	CaptionAlias;
-function search_type() {
-	var index = search_typ.val();
-	if(CaptionAlias) CaptionAlias.remove();
-	detail.children().remove();	
-	if(index == 0) { // default category item 		
-		CaptionAlias = Caption.clone().attr("disabled", true).insertAfter(detail);
-		detail
-			.append($('<option value="0">-------選擇參數-------</option>'))
-			.attr("disabled", true);		
-	}
-	if(index == 1) {
-		//CaptionAlias = Caption.clone().attr("disabled", true).insertAfter(detail);
+var searchMode = function (evt, init, val, captionVal, captionVal2) {	
+		var index = Number(search_typ.val());
+		if(CaptionAlias) CaptionAlias.add(CaptionAlias2).unbind().remove();		
+		detail.unbind().hide().children().remove();
+		if(captionLabAlias) captionLabAlias.add(captionLabAlias2).remove();	
+		if(!init) {
+			DISPLAY_RESULT.add(DISPLAY_BUY_LIST).add(DISPLAY_BUY_STATUS).hide();
+		}
+		send.hide();
+		switch (index) {
+		case 0:			
+			if(init) return;			
+			salesForm.trigger('submit');
+			break;
+		case 1:
 {/literal}
-		detail.append($('<option value="0">--選擇訂單編號--</option>')){foreach from=$SN_LIST_P item=item key=key}.append($('<option value="{$key}">{$item}</option>')){/foreach}.attr("disabled", false);
+			detail
+				.append(
+					$('<option value="0">--選擇訂單編號--</option>')
+				)
+		{foreach from=$SN_LIST_P item=item key=key}
+		.append($('<option value="{$key}">{$item}</option>'))
+		{/foreach}		{literal}.bind('change', 
+					function () {
+						salesForm.trigger('submit');
+					}
+				)
+				.attr("disabled", false)
+				.val(detailVal || 0)
+				.show();
+			break;
+		case 2:
+			var endDate = new Date(),			 
+				startDate = '-1',
+				captionLab = $('<span></span>');			
+			CaptionAlias2 = Caption.clone()				
+				.css('width', 80)
+				.attr('name', 'Caption2')
+				.attr("disabled", false)
+				.datepicker({
+					'dateFormat': 'mm/dd/yy'
+				})
+				.insertAfter(detail);
+			if (captionVal2) {
+				CaptionAlias2.datepicker('setDate', captionVal2);
+			} else {
+				CaptionAlias2.datepicker('setDate', endDate);				
+			}
+			captionLabAlias2 = captionLab.clone().text(' To: ').insertAfter(detail);
+			CaptionAlias = Caption.clone()				
+				.css('width', 80)
+				.attr('name', 'Caption')
+				.attr("disabled", false)
+				.datepicker({
+					'dateFormat': 'mm/dd/yy'
+				})
+				.insertAfter(detail);
+				
+			if (captionVal) {				
+				CaptionAlias.datepicker('setDate', captionVal);	
+			} else {
+				CaptionAlias.datepicker('setDate', startDate);		
+			}
+			captionLabAlias = captionLab.clone().text(' From: ').insertAfter(detail);
+			detail.hide();			
+			send.show();
+			break;
+		case 3:
+			CaptionAlias = Caption.clone()
+				.attr('name', 'Caption')
+				.val('請輸入案件名稱')
+				.attr("disabled", false)
+				.unbind()
+				.bind({
+					'focus': function () {
+						if (CaptionAlias.val() == '請輸入案件名稱') {
+							CaptionAlias.val('');
+						}
+					},
+					'blur': function () {
+						if (CaptionAlias.val() == '') {
+							CaptionAlias.val('請輸入案件名稱');
+						}
+					},
+					"keydown": keyDownValidate					
+				})
+				.insertAfter(detail);
+				
+			if (captionVal) {
+				CaptionAlias.val(captionVal);
+			}
+			detail.hide();
+			send.show();
+			break;
+		case 4:
+			CaptionAlias = Caption.clone()
+				.val("請輸入金額範圍，如100-5000")
+				.css('width', 160)
+				.attr('name', 'Caption')
+				.attr("disabled", false)
+				.bind({
+					'focus': function () {
+						if (CaptionAlias.val() == '請輸入金額範圍，如100-5000') {
+							CaptionAlias.val('');
+						}
+					},
+					'blur': function () {
+						if (CaptionAlias.val() == '') {
+							CaptionAlias.val('請輸入金額範圍，如100-5000');
+						}
+					},
+					"keydown": keyDownValidate
+				})				
+				.insertAfter(detail);
+			CaptionAlias2 = Caption.clone()
+				.attr('name', 'Caption2')
+				.attr("disabled", false)
+				.hide()
+				.insertAfter(detail);
+			if (captionVal) {
+				CaptionAlias.val(captionVal);
+			}
+			if (captionVal2) {
+				CaptionAlias2.val(captionVal2);
+			}
+			detail.hide();
+			send.show();
+			break;
+		}
+	},
+{/literal}	
+	queryMode = {$queryMode},
+	detailVal = '{$DETAIL}',
+	captionVal = '{$Caption}',
+	caption2Val = '{$Caption2}',
 {literal}
-	}
-	if(index == 2) {
-		CaptionAlias = Caption.clone()
-			.val(date)
-			.attr("disabled", false)
-			.datepicker({
-				'dateFormat': 'yy/mm/dd'
-			})
-			.insertAfter(detail);		
-		detail.append($('<option value="0">--於右側輸入下單日期--</option>')).attr("disabled", true);
-	}
-	if(index == 3) {
-		CaptionAlias = Caption.clone().val('').attr("disabled", false).insertAfter(detail);
-		detail.append($('<option value="0">--於右側輸入檔案名稱--</option>')).attr("disabled", true);
-	}
-	if(index == 4) {
-		CaptionAlias = Caption.clone().val("0000~1111").attr("disabled", false).insertAfter(detail);
-		detail.append($('<option value="0">--於右側輸入交易金額--</option>')).attr("disabled", true);
-	}	
-	if(index == 5) {
-		CaptionAlias = Caption.clone().val(month).attr("disabled", false).insertAfter(detail);
-		detail.append($('<option value="0">--於右側輸入下單月份--</option>')).attr("disabled", true);		
-	}
-	detail.val(0);	
-}
-search_typ.val(queryMode).trigger("change");
+	salesForm = $('#sales_list'),
+	search_typ = $(".search_typ").bind('change', searchMode),
+	search_result,
+	DISPLAY_RESULT = $('.DISPLAY_RESULT'),
+	DISPLAY_BUY_LIST = $('.DISPLAY_BUY_LIST'),
+	DISPLAY_BUY_STATUS = $('.DISPLAY_BUY_STATUS'),
+	detail = $(".detail"),//.hide(),
+	Caption = $(' <input class="caption" type="text" style="vertical-align:middle; padding:0; margin-left: 3px; width:150px; font-size:12px; height:22px; line-height:22px;" />').val("").attr("disabled", true),
+	send = $('#send'),
+	CaptionAlias,
+	CaptionAlias2,
+	captionLabAlias,
+	captionLabAlias2,
+	keyDownValidate = function (evt) {						
+		switch(evt.keyCode) {
+		case 222:
+			return false;
+			break;
+		case 49:
+			if ( evt.shiftKey == true) return false;
+			break;		
+		}				
+	},
+	upload_file = function (seq,nbr){
+	   // window.open("status_upload_files_num.php?STATUS=HISTORY&seq="+seq+"if($_GET[MODE]){ echo "&MODE=".$_GET[MODE]."&Keyword=".$Keyword."&Caption=".$_GET[Caption]; }else if($_POST[MODE]){ echo "&MODE=".$_POST[MODE]."&Keyword=".$Keyword."&Caption=".$_POST[Caption]; }  if($_GET[SN]){ echo "&SN=".$_GET[SN]."&DISPLAY=".$_GET[DISPLAY]; } &mbr="+nbr,"Upload"+nbr,"toolbar=no,location=no,directory=yes,status=yes,scrollbars=yes,resizable=no,width=418,height=165");
+	},
+	upload_fix = function (seq,nbr){
+	   // window.open("status_upload_fix.php?STATUS=HISTORY&seq="+seq+"if($_GET[MODE]){ echo "&MODE=".$_GET[MODE]."&Keyword=".$Keyword."&Caption=".$_GET[Caption]; }else if($_POST[MODE]){ echo "&MODE=".$_POST[MODE]."&Keyword=".$Keyword."&Caption=".$_POST[Caption]; }  if($_GET[SN]){ echo "&SN=".$_GET[SN]."&DISPLAY=".$_GET[DISPLAY]; } &mbr="+nbr,"Upload"+nbr,"toolbar=no,location=no,directory=yes,status=yes,scrollbars=yes,resizable=no,width=620,height=335");
+	},
+	data_check = function (evt, searchResult){		
+		var searchMode = Number(search_typ.val()),
+			detailVal = detail.val(),
+			captionVal,
+			captionVal2,
+			startDate = new Date(),			 
+			endDate = new Date(),	
+			submit = false;			
+		switch(searchMode) {
+		case 0:
+			submit = true;
+			break;
+		case 1:
+			if ( detailVal != 0) {
+				submit = true;	
+			}
+			break;
+		case 2:		
+			captionVal = CaptionAlias.val();
+			captionVal2 = CaptionAlias2.val();			
+			startDate.setFullYear(captionVal.split('/')[2]);
+			startDate.setMonth(captionVal.split('/')[0] - 1);
+			startDate.setDate(captionVal.split('/')[1]);
+			endDate.setFullYear(captionVal2.split('/')[2]);
+			endDate.setMonth(captionVal2.split('/')[0] - 1);
+			endDate.setDate(captionVal2.split('/')[1]);
+			if (endDate.getTime() >= startDate.getTime()) {
+				submit = true;
+			} else {
+				alert('查詢時間格式有誤!');
+			}
+			if(searchResult == undefined) {
+				if(search_result) search_result.val(0);
+			}
+			break;
+		case 3: case 4:
+			captionVal = CaptionAlias.val();		
+			if (captionVal == '' || captionVal == '請輸入案件名稱' || captionVal == '請輸入金額範圍，如100-5000') {
+				CaptionAlias.val(captionVal);
+				submit = true;
+			} else {
+				submit = true;
+			}
+			if (searchMode == 4) {
+				if (captionVal == '' || captionVal == '請輸入金額範圍，如100-5000') {
+					CaptionAlias2.val('');
+				} else {
+					var vals = captionVal.match(/[\-|\~]{1,1}/ig);
+					if( vals.length == 1) {					
+						CaptionAlias2.val(captionVal.split(vals[0]).join(','));					
+						submit = true;
+					} else {
+						submit = false;
+					}
+				}
+			}			
+			if(searchResult == undefined) {
+				if(search_result) search_result.val(0);
+			}			
+			break;
+		}
+		if (submit === true) {
+			return true;
+		} else {
+			return false;
+		}		
+	},
+	SELE_RESULT = function (seq){
+		salesForm.trigger('submit', [true]);
+	};
+
+search_typ.val(queryMode).trigger('change', [true, detailVal, captionVal, caption2Val]);
+salesForm.bind('submit', function (evt, check) {	
+	return data_check(evt, check);
+});
+send.bind('click', function (evt) {	
+	salesForm.trigger('submit');
+});
 {/literal}
 </script>
