@@ -15,7 +15,7 @@ if($LOGIN_OBJ['LOG_PRVL']==2){
 }
 $buyer= $LOGIN_OBJ['LOGIN_ID'];
 //調閱歷史;
-$CHECK_HISTORY_BUYED_R=SEL("CHECK_HISTORY_BUYED","*","SALES_CAR","BUYER = ".$buyer." && FINISH_TAB = 1 && SEQ_NBR != 1 && SEQ_NBR != 0","SEQ_NBR asc","");
+$CHECK_HISTORY_BUYED_R = SEL("CHECK_HISTORY_BUYED","*","SALES_CAR","BUYER = ".$buyer." && FINISH_TAB = 1 && SEQ_NBR != 1 && SEQ_NBR != 0","SEQ_NBR asc","");
 $Mode = "";
 $history = array();
 $SN_LIST_P = array();
@@ -24,13 +24,10 @@ $searchData = array();
 $searchTotal = 0;
 $resultData;
 $resultTotal = 0;
-$dateN = date("Y/m/d");
-$monthN = date("Y/m");
 $queryModes = array(
-	0 => "--選擇查詢方式--",
+	0 => "最後交易訂單",
 	1 => "歷史訂單",
 	2 => "訂單日期",
-	5 => "訂單月份",
 	3 => "案件名稱",
 	4 => "交易金額"
 );
@@ -42,68 +39,148 @@ if($CHECK_HISTORY_BUYED_R[0]==1){
 foreach ($history as $key => $value) {
 	$SN_LIST_P[$value["SEQ_NBR"]] = $value["SALES_LA"].sprintf("%04d",$value["SEQ_NBR"]);	
 }
-if ($_GET["MODE"]) {
-	$Mode = $_GET["MODE"];	
-    $S_CAP = $_GET["Caption"];
+if ($_GET["search_typ"]) {
+	$queryMode = $_GET["search_typ"];
+    $Caption = $_GET["Caption"];
+	$Caption2 = $_GET["Caption2"];
 	$DISPLAY = $_GET["DISPLAY"];
-	$SN = $_GET["SN"];
-} else if($_POST["MODE"]){
-	$Mode = $_POST["MODE"];
-	$S_CAP = $_POST["Caption"];	
+	$DETAIL = $_GET["detail"];	
+} else if($_POST["search_typ"]){
+	$queryMode = $_POST["search_typ"];
+	$Caption = $_POST["Caption"];
+	$Caption2 = $_POST["Caption2"];	
 	$DISPLAY = $_POST["DISPLAY"];
-	$SN = $_POST["SN"];
+	$DETAIL = $_POST["detail"];
+} else {
+	$queryMode = 0;
+	$DETAIL = "";
 }
-switch ($Mode) {
-case "SN":
-/*
-	$queryMode = 1;	
-	//$SN_LIST_P[0] = "--選擇訂單編號--";
-	//$detailDisabled = false;
-	//$captionDisabled = true;
-	break;
-case "DATE_SEARCH":
-
-	$queryMode = 2;
-	$DAT = explode("/",$S_CAP,3);
-	$SD = mktime(0,0,0, $DAT[1], $DAT[2], $DAT[0]);
-	$ED = mktime(23,59,59, $DAT[1], $DAT[2], $DAT[0]);
-	echo $SD."===";
-	echo $ED."===";
-	$CHECK_BUYED_R = SEL("BUY_CHECK", "*", "SALES_CAR", "BUYER = ".$buyer." && FINISH_TAB = 1 && ( UPD_DT >= ".$SD." && UPD_DT <= ".$ED." ) && SEQ_NBR != 1 && SEQ_NBR != 0","SEQ_NBR asc","");
-	$searchTotal = $CHECK_BUYED_R[0];	
-	echo $CHECK_BUYED_R[0];
-	if($CHECK_BUYED_R[0] == 1){
-		$searchData[] = $CHECK_BUYED_R[1];		
-	}else{
-		$searchData = $CHECK_BUYED_R[1];		
+switch ($queryMode) {
+case 1:
+	$CHECK_BUYED_R = SEL("BUY_CHECK", "*", "SALES_CAR", "BUYER = ".$buyer." && FINISH_TAB = 1 && SEQ_NBR = ".$DETAIL." && SEQ_NBR != 1 && SEQ_NBR != 0","SEQ_NBR asc","");
+	if ($CHECK_BUYED_R[0] == 1) {
+		$resultData = $CHECK_BUYED_R[1];
+		$resultTotal = 1;
 	}
-	foreach($searchData as $KEY => $VALUE){		
-		$SN_LIST[$VALUE["SEQ_NBR"]] = $VALUE["SALES_LA"].sprintf("%04d",$VALUE["SEQ_NBR"]);
-	}
-	//$SN_LIST_P[0] = "--於右側輸入下單日期--";
-	$DISPLAY_RESULT=1;
+	$DISPLAY=1;
+	$DISPLAY_RESULT=0;
 	$DISPLAY_BUY_LIST=1;
-	$dateN = $S_CAP;
-	$CHECK_BUYED_R = SEL("BUY_CHECK","*","SALES_CAR","BUYER = ".$buyer." && FINISH_TAB = 1 && SEQ_NBR = ".$SN." && SEQ_NBR != 1 && SEQ_NBR != 0","","");
 	break;
-case "MONTH_SEARCH":
-	$queryMode = 5;
-	//$SN_LIST_P[0] = "--於右側輸入下單月份--";
+case 2:
+	$DAT = explode("/", $_POST['Caption']);
+	$SD = mktime(0, 0, 0, $DAT[0], $DAT[1], $DAT[2]);
+	$DAT = explode("/", $_POST['Caption2']);
+	$ED = mktime(23, 59, 59, $DAT[0], $DAT[1], $DAT[2]);
+	$CHECK_BUYED_R = SEL("BUY_CHECK", "*", "SALES_CAR", "BUYER = ".$buyer." && FINISH_TAB = 1 && ( UPD_DT >= ".$SD." && UPD_DT <= ".$ED." ) && SEQ_NBR != 1 && SEQ_NBR != 0","SEQ_NBR asc","");
+	$searchTotal = $CHECK_BUYED_R[0];
+	$SN_LIST[0] = '----選擇編號----';
+	if($CHECK_BUYED_R[0] != 0) {
+		if($CHECK_BUYED_R[0] == 1){
+			$searchData[] = $CHECK_BUYED_R[1];		
+		}else{
+			$searchData = $CHECK_BUYED_R[1];		
+		}
+		foreach($searchData as $KEY => $VALUE){		
+			$SN_LIST[$VALUE["SEQ_NBR"]] = $VALUE["SALES_LA"].sprintf("%04d",$VALUE["SEQ_NBR"]);
+		}
+	}	
+	$hicolor-> assign('SN_LIST', $SN_LIST);
+	$hicolor-> assign('Caption', $_POST['Caption']);
+	$hicolor-> assign('Caption2', $_POST['Caption2']);
+	$DISPLAY = 1;
+	$DISPLAY_RESULT = 1;
+	$DISPLAY_BUY_LIST = 0;
+	if (isset($_POST['search_result'])) {
+		$CHECK_BUYED_R = SEL("BUY_CHECK","*","SALES_CAR","BUYER = ".$buyer." && FINISH_TAB = 1 && SEQ_NBR = ".$_POST['search_result']." && SEQ_NBR != 1 && SEQ_NBR != 0","","");
+		if ($CHECK_BUYED_R[0] == 1) {
+			$resultData = $CHECK_BUYED_R[1];
+			$resultTotal = 1;
+			$DISPLAY_BUY_LIST = 1;
+		}
+		$hicolor-> assign('search_result', $_POST['search_result']);		
+	}
 	break;
-case "FILES_SEARCH":
-	$queryMode = 3;
-	//$SN_LIST_P[0] = "--於右側輸入檔案名稱--";
-	//$detailDisabled = true;
-	//$captionDisabled = false;
+case 3:
+	if (isset($_POST['Caption'])) {
+		$hicolor-> assign('Caption', $_POST['Caption']);
+		if (count($history) > 0) {	
+			foreach($history as $KEY => $VALUE){			
+				$CHECK_DETAIL_BUYED_R = SEL("BUY_CHECK", "*", "SALES_CAR_DETAIL", "SALES_SEQ = ".$VALUE['SEQ_NBR'], "SEQ_NBR asc", "");
+				$DETAIL_BUYED_DATA = array();			
+				if ($CHECK_DETAIL_BUYED_R[0] > 0) {				
+					if ($CHECK_DETAIL_BUYED_R[0] == 1) {
+						$DETAIL_BUYED_DATA[] = $CHECK_DETAIL_BUYED_R[1];
+					} else {
+						$DETAIL_BUYED_DATA = $CHECK_DETAIL_BUYED_R[1];
+					}				
+					foreach($DETAIL_BUYED_DATA as $KEY2 => $VALUE2){													
+						$upload_R = SEL("BUY_CHECK", "*", "SALES_CAR_UPLOAD", "SALES_DETAIL_SEQ = ".$VALUE2['SEQ_NBR']." && (FILE_NM like \"%".$_POST['Caption']."%\" || FILE_NICK like \"%".$_POST['Caption']."%\")","SEQ_NBR asc","");
+						if($upload_R[0]!=0){							
+							array_push($searchData, $VALUE);
+						}						
+					}
+				}
+			}
+		}
+		$searchTotal = count($searchData);
+		$SN_LIST[0] = '----選擇編號----';
+		if($searchTotal > 0){			
+			foreach($searchData as $KEY => $VALUE){
+				$SN_LIST[$VALUE["SEQ_NBR"]] = $VALUE["SALES_LA"].sprintf("%04d",$VALUE["SEQ_NBR"]);			
+			}
+	    }
+		$hicolor-> assign('SN_LIST', $SN_LIST);
+		$DISPLAY = 1;
+		$DISPLAY_RESULT = 1;
+		$DISPLAY_BUY_LIST = 0;
+		if (isset($_POST['search_result'])) {
+			$CHECK_BUYED_R = SEL("BUY_CHECK","*","SALES_CAR","BUYER = ".$buyer." && FINISH_TAB = 1 && SEQ_NBR = ".$_POST['search_result']." && SEQ_NBR != 1 && SEQ_NBR != 0","","");
+			if ($CHECK_BUYED_R[0] == 1) {
+				$resultData = $CHECK_BUYED_R[1];
+				$resultTotal = 1;
+				$DISPLAY_BUY_LIST = 1;
+			}
+			$hicolor-> assign('search_result', $_POST['search_result']);
+		}
+	}
 	break;
-case "PRICE_SEARCH":
-	$queryMode = 4;
-	//$SN_LIST_P[0] = "--於右側輸入交易金額--";
-	//$detailDisabled = true;
-	//$captionDisabled = false;*/
+case 4:
+	if (isset($_POST['Caption2'])) {
+		$hicolor-> assign('Caption', $_POST['Caption']);
+		$hicolor-> assign('Caption2', $_POST['Caption2']);
+		$price = explode(",", $_POST['Caption2']);		
+		if (count($history) > 0) {	
+			foreach($history as $KEY => $VALUE) {
+				$totalPrice = $VALUE['FINISH_PAY'] + $VALUE['TRANS_PRICE'];
+				if ($price[0] <= $totalPrice && $totalPrice <= $price[1]) {
+					array_push($searchData, $VALUE);
+				}				
+			}
+			
+		}
+		$searchTotal = count($searchData);
+		$SN_LIST[0] = '----選擇編號----';
+		if($searchTotal > 0){			
+			foreach($searchData as $KEY => $VALUE){
+				$SN_LIST[$VALUE["SEQ_NBR"]] = $VALUE["SALES_LA"].sprintf("%04d",$VALUE["SEQ_NBR"]);
+			}
+		}
+		$hicolor-> assign('SN_LIST', $SN_LIST);
+		$DISPLAY = 1;
+		$DISPLAY_RESULT = 1;
+		$DISPLAY_BUY_LIST = 0;
+		if (isset($_POST['search_result'])) {
+			$CHECK_BUYED_R = SEL("BUY_CHECK","*","SALES_CAR","BUYER = ".$buyer." && FINISH_TAB = 1 && SEQ_NBR = ".$_POST['search_result']." && SEQ_NBR != 1 && SEQ_NBR != 0","","");
+			if ($CHECK_BUYED_R[0] == 1) {
+				$resultData = $CHECK_BUYED_R[1];
+				$resultTotal = 1;
+				$DISPLAY_BUY_LIST = 1;
+			}
+			$hicolor-> assign('search_result', $_POST['search_result']);
+		}		
+	}
 	break;
 default:
-	$queryMode = 0;
 	$resultData = end($history);
 	if($resultData) {
 		$resultTotal = 1;
@@ -114,62 +191,9 @@ default:
 	$hicolor-> assign('listMode', '最後交易訂單');
 	break;
 }
-if($resultTotal > 0){
-	$resultBuyList = array();
-	if($resultData["CLOSE"]==0){
-		$STAUS= true;
-	}else if($resultData["CLOSE"]==1){
-		$STAUS= false;
-	}
-	if($resultData["PAY_CHECK"]==1){
-		$payStatus = true;
-		//$PAY_PHOTO="<img src=\"ok_gray.jpg\" width=\"13\" height=\"13\">";
-	}else{
-		$payStatus = false;
-		//$PAY_PHOTO="<img src=\"no_gray.jpg\" width=\"13\" height=\"13\">";
-	}
-	if($resultData["FILES_CHECK"]==1){
-		$filesStatus = true;
-		//$FILES_PHOTO="<img src=\"ok_gray.jpg\" width=\"13\" height=\"13\">";
-	}else{
-		$filesStatus = false;
-	    //$FILES_PHOTO="<img src=\"no_gray.jpg\" width=\"13\" height=\"13\">";
-	}
-	if($resultData["PRINT_CHECK"]==1){
-		$printStatus = true;
-		//$PRINT_PHOTO="<img src=\"ok_gray.jpg\" width=\"13\" height=\"13\">";
-	}else{
-		$printStatus = false;
-		//$PRINT_PHOTO="<img src=\"no_gray.jpg\" width=\"13\" height=\"13\">";
-	}
-	if($resultData["TRANS_CHECK"]==1){
-		$transStatus = true;
-		//$TRANS_PHOTO="<img src=\"ok_gray.jpg\" width=\"13\" height=\"13\">";
-	}else{
-		$transStatus = false;
-		//$TRANS_PHOTO="<img src=\"no_gray.jpg\" width=\"13\" height=\"13\">";
-	}
-	$trans_ti = split("~",$resultData["trans_time"], 2);
-	/*if (substr($trans_ti[0], 0, 2) > 12) {
-		$SH = sprintf("%02d",(substr($trans_ti[0], 0, 2) - 12));
-		$start_hour = "PM" . $SH . "：" . substr($trans_ti[0], 2, 2);
-	}else{
-		$start_hour = "AM" . substr($trans_ti[0], 0, 2) . "：" . substr($trans_ti[0], 2, 2);
-	}
-	if (substr($trans_ti[1], 0, 2) > 12) {
-		$EH = sprintf("%02d",(substr($trans_ti[1], 0, 2) - 12));
-		$end_hour = "PM" . $EH . "：" . substr($trans_ti[1], 2, 2);
-	}else{
-		$end_hour = "AM" . substr($trans_ti[1], 0, 2) . "：" . substr($trans_ti[1], 2, 2);
-	}*/
-	//date("Y/m/d",$CHECK_BUYED_R[1][])
+if($resultTotal > 0){	
 	$hicolor-> assign('resultData', $resultData);
-	//$CHECK_BUYED_R[1][SALES_LA].sprintf("%04d",$CHECK_BUYED_R[1][0])
-	/*if($CHECK_BUYED_R[1][CLOSE]==1){
-	$CLOSE_PHOTO="<img src=\"ok_gray.jpg\" width=\"13\" height=\"13\">";
-	}else{
-	$CLOSE_PHOTO="<img src=\"no_gray.jpg\" width=\"13\" height=\"13\">";
-	}*/
+	$resultBuyList = array();
 	//查詢購物內容;
     $BUYED_DETAIL_R = SEL("BUY_DETAIL", "*", "SALES_CAR_DETAIL", "SALES_SEQ = ".$resultData["SEQ_NBR"], "SEQ_NBR asc", "");
 	$BUYED_DETAIL_DATA = array();
@@ -206,11 +230,10 @@ if($resultTotal > 0){
 $hicolor-> assign('DISPLAY', $DISPLAY);
 $hicolor-> assign('DISPLAY_RESULT', $DISPLAY_RESULT);
 $hicolor-> assign('DISPLAY_BUY_LIST', $DISPLAY_BUY_LIST);
+$hicolor-> assign('DETAIL', $DETAIL);
 $hicolor-> assign('queryModes', $queryModes);
 $hicolor-> assign('queryMode', $queryMode);
 $hicolor-> assign('SN_LIST_P', $SN_LIST_P);
-$hicolor-> assign('date', $dateN);
-$hicolor-> assign('month', $monthN);
 $hicolor-> assign('searchTotal', $searchTotal);
 $hicolor-> assign('resultTotal', $resultTotal);
 $hicolor-> assign('resultBuyList', $resultBuyList);
