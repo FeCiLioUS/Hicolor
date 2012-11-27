@@ -1,4 +1,0 @@
-AuthName     "Protect test by .htaccess"
-Authtype     Basic
-AuthUserFile /var/www/apache.passwd
-require user dary
