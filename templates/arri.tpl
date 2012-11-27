@@ -12,9 +12,14 @@
 .productDetail .description { width: 370px; float: left;}
 .productDetail .description .photoAttach { margin-top: 10px;}
 .productDetail .description .photoAttach li { margin:10px 0;}
-.productDetail .description .photoAttach li .photoName { display: block; color: #333333; font-size: 12px; line-height: 24px;}
+.productDetail .description .photoAttach li .photoName { display: block; color: #333333; font-weight: bold; font-size: 12px; line-height: 24px;}
 .productDetail .description .photoAttach li .photo { clear:both; }
-.productDetail .description .cutModleAttach li a{ font-size: 13px; line-height: 24px; text-decoration: underline;}
+.productDetail .description .cutModleAttach{display: inline-block;}
+.productDetail .description .cutModleAttach li{	float: left; margin-right: 5px;}
+.productDetail .description .cutModleAttach li a{font-size: 13px; line-height: 24px; text-decoration: underline;}
+.productDetail .description .items {
+	clear: both;
+}
 .productDetail .description .items li{ margin-top:15px;}
 .productDetail .description .items li .listIcon { background: none repeat scroll 0 0 #DBE6EC; clear: both; display: block; float: left; height: 33px; margin-right: 5px; width: 13px; }
 .productDetail .description .items li .sectionTitle { font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-variant: normal; letter-spacing: 4px; line-height: 52px; line-height: 56px \9; margin-left: 5px;}
