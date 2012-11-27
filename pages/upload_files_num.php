@@ -1,20 +1,3 @@
-<?
-/*
-//定義URL常數;
-//載入基本變數及函式及基本變數檢查;
-include("./lib/main.php");
-define("CRTE_TIME",$CRTE_TIME);
-//查詢是否登入;
-//查詢登入與否與登入者;
-define("buyer",USER_LOGIN());
-if(LOG_TAB!=1){
-    $Msg="您尚未登入，請先登入會員！";
-}
-//購物者身份;
-if(LOG_PRVL==2){
-    $LOG_PRVL="A";
-}*/
-?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
