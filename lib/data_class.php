@@ -231,8 +231,8 @@
    //管理者登入檢查;
    function ADMIN_LOG_CHECK()
    {   
-       //比對帳號和密碼;
-       define("CRTE_TIME",mktime(date()));       
+       //比對帳號和密碼;       
+	   define("CRTE_TIME",time()); 
        $QUERY_NM="ADMIN_LOGIN";
        $QUERY_SELECT_NM="*";
        $QUERY_TABLES_NM="adminper";

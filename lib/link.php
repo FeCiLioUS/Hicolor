@@ -1,6 +1,6 @@
 <?
 $SQLAccessID="root";
-$SQLpwd="jiwtcgrtreice";
+$SQLpwd="0000";
 $SQLHost="localhost";
 $Mydatabase="hicolor";
 define("MyLink",mysql_connect($SQLHost,$SQLAccessID,$SQLpwd));
