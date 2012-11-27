@@ -24,7 +24,7 @@ td{
 }
 {/literal}
 </style>
-<script src="../lib/framework/jquery/jquery-1.6.4.js"></script>
+<script src="../library/framework/jquery/jquery-1.6.4.js"></script>
 <script src="../js/jquery-text-overflow/jquery.text-overflow.js"></script>
 <script src="../js/jquery-cookie/jquery.cookie.js"></script>
 <script src="../js/jquery-getUrlParam/jquery.getUrlParam.js"></script>
