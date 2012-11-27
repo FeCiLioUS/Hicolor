@@ -1,7 +1,7 @@
 <style type="text/css">
 {literal}
 .cateTitle { border-bottom: 1px solid #999999;}
-.cateTitle span { background:url('../securityimage/images/arrie_org.png') no-repeat center top; min-width: 160px; display: inline-block; color: #006699; text-align:center; font: 14pt Arial,Helvetica,sans-serif; font-weight: bold;  letter-spacing: 4px; vertical-align: middle; line-height:35px; }
+.cateTitle span { background:url('../newSecurityImg/images/arrie_org.png') no-repeat center top; min-width: 160px; display: inline-block; color: #006699; text-align:center; font: 14pt Arial,Helvetica,sans-serif; font-weight: bold;  letter-spacing: 4px; vertical-align: middle; line-height:35px; }
 .viewBasket { float:right; background: url('../images/sales_car.jpg') no-repeat;}
 .viewBasket:hover { background: url('../images/sales_car_2.jpg') no-repeat;}
 .viewBasket a {  color: #333333; font-family: Arial,Helvetica,sans-serif; font-size: 12px; letter-spacing: 2px; line-height:25px; text-decoration: none; padding-left:30px;}

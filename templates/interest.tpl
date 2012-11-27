@@ -1,6 +1,6 @@
 <style type="text/css">
 {literal}
-.wrapper .mainContent .middleContent .title span{ display:inline-block; min-width:160px; background: url("../securityimage/images/arrie_org.png") no-repeat scroll center top transparent; font-family: Times New Roman,Times,serif; font-size: 12px; letter-spacing: 3px; line-height: 26px; text-align: center;}
+.wrapper .mainContent .middleContent .title span{ display:inline-block; min-width:160px; background: url("../newSecurityImg/images/arrie_org.png") no-repeat scroll center top transparent; font-family: Times New Roman,Times,serif; font-size: 12px; letter-spacing: 3px; line-height: 26px; text-align: center;}
 .rightContent { bordder: 1px #999 solid; padding: 10px;}
 .rightContent .NotFoundData { color: #bd0000; font-size: 14px; text-align: center; font-weight: bold; line-height: 50px; letter-spacing: 2px;}
 .rightContent li { border-bottom: 1px #666 solid; width: 100%; display: inline-block; margin-top:20px; padding-bottom: 20px;}

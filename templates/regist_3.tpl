@@ -190,7 +190,7 @@ $(".navigationMenu .memberCenter").addClass("selected");
 					</table>
 				</li>
 				<li>
-					<div><img class="securityImage" alt="Security Image" src="../securityimage/securityimage.php" /></div>
+					<div><img class="securityImage" alt="Security Image" src="../newSecurityImg/securityimage.php" /></div>
 					<div class="style40 comfirmCode">確認碼：請照著上方您所看到的字輸入，並請注意大小寫，需正確輸入。</div>                    
 					<input type="text" name="securityImageValue" style="font-size:9pt;float:left;width:80px;height:17px;">
 				</li>
