@@ -1,7 +1,7 @@
 <?php
 $__DIR__= dirname(__FILE__);
-require_once($__DIR__."/../lib/Smarty/libs/Smarty.class.php");
-require_once($__DIR__."/../lib/main.php");
+require_once($__DIR__."/../library/Smarty/libs/Smarty.class.php");
+require_once($__DIR__."/../library/main.php");
 class Hicolor extends Smarty{
 	var $config;
 	var $FREE_MODE;
