@@ -27,6 +27,7 @@ class Hicolor extends Smarty{
 		$this-> assign("productArray", $productArray);
 		//¸ü¤JHEADER¼Ò²Õ
 		$this-> assign("headerPath", "../templates/header.tpl");
+		$this-> assign("adminHeaderPath", "../templates/adminHeader.tpl");
 		//Error Handlering
 		if(isset($_REQUEST[Msg]) && strlen($_REQUEST[Msg]) > 0){
 			$this-> assign("Msg", $_REQUEST[Msg]);
