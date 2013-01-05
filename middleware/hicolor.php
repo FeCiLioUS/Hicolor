@@ -5,12 +5,12 @@ require_once($__DIR__."/../library/main.php");
 class Hicolor extends Smarty{
 	var $config;
 	var $FREE_MODE;
-	function Hicolor(){	
+	function Hicolor($type = 'user', $isDefault = false){	
 		$__DIR__= dirname(__FILE__);
 		$this-> template_dir= "../templates";
 		$this-> compile_dir= "../templates_c";
 		$this-> cache_dir= "../cache";
-		//¸ü¤J©w¸qÀÉ
+		//è¼‰å…¥å®šç¾©æª”
 		$iniPath= $__DIR__ . '\\..\\config\\' . preg_replace('/^.+\\\/', '', __CLASS__) . '.ini';
 		$ret = $this -> readConfigFile($iniPath);
 		if($ret != 1){
@@ -21,21 +21,37 @@ class Hicolor extends Smarty{
 			$this-> assign("copyright", $this-> getConfigAttr("copyright"));
 			$this-> assign("address", $this-> getConfigAttr("address"));
 		}
-		//¸ü¤J²£«~¶µ¥Ø;
+		//è¼‰å…¥ç”¢å“é …ç›®;
 		include($__DIR__."/../middleware/PRODUCT_LIST.php");
 		$this-> FREE_MODE = $FREE_MODE;
-		$this-> assign("productArray", $productArray);
-		//¸ü¤JHEADER¼Ò²Õ
-		$this-> assign("headerPath", "../templates/header.tpl");
-		$this-> assign("adminHeaderPath", "../templates/adminHeader.tpl");
+		$this-> assign("productArray", $productArray);		
 		//Error Handlering
 		if(isset($_REQUEST[Msg]) && strlen($_REQUEST[Msg]) > 0){
 			$this-> assign("Msg", $_REQUEST[Msg]);
-		}
-		//¸ü¤Jµn¤J¼Ò²Õ
-		$this-> assign("logInfo", "../templates/log_info.tpl");
-		//ÀË¬dµn¤Jª¬ºA
-		USER_LOGIN();	
+		}		
+		if($type == 'user') {
+			//è¼‰å…¥ç™»å…¥æ¨¡çµ„
+			$this-> assign("logInfo", "../templates/log_info.tpl");			
+			$this-> assign("headerPath", "../templates/header.tpl");
+			//è¼‰å…¥HEADERæ¨¡çµ„
+			$this-> assign("loginType", "user");
+			//æª¢æŸ¥ç™»å…¥ç‹€æ…‹
+			USER_LOGIN();	
+		} else {
+			//è¼‰å…¥ç™»å…¥æ¨¡çµ„
+			$this-> assign("logInfo", "../templates/admin_login.tpl");
+			$this-> assign("loginType", "admin");
+			//è¼‰å…¥HEADERæ¨¡çµ„
+			$this-> assign("headerPath", "../templates/adminHeader.tpl");
+			//æª¢æŸ¥ç™»å…¥ç‹€æ…‹
+			ADMIN_LOGIN();
+			$fp     = fopen("../tmp/counter.txt","rw");
+			$num    = fgets($fp, 5);			
+			$this-> assign("counter", $num);
+			if (LOG_TAB == 0 && $isDefault == false) {				
+				//header('location:../pages/admin.php?Msg=å°šæœªç™»å…¥ï¼');
+			}
+		}		
 		if(LOG_TAB == 0){
 			$this-> assign("loginStatus", false);
 		}else{
@@ -74,7 +90,7 @@ class Hicolor extends Smarty{
 		return ( isset($this->config[$name]) ) ? $this->config[$name] : null;
 	}
 	/**
-	 * ¬d¸ß¬O§_µn¤J;
+	 * æŸ¥è©¢æ˜¯å¦ç™»å…¥;
 	 */
 	/*function loginStatus(){		
 		$QUERY_NM="COOKIES_CHECK";
