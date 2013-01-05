@@ -44,6 +44,7 @@ body{ margin: 0px; padding: 0px; background: #999999;}
 .wrapper .mainContent .middleContent .title { border-bottom: 1px solid #999;}
 .wrapper .mainContent .middleContent .title img { vertical-align: bottom; }
 .wrapper .footer{ clear: both; width: 950px; height: 104px;}
+.wrapper .footerLeft{ width: 140px; height: 104px; background: url('../images/admin_1down_1_in.jpg') no-repeat; float: left;}
 .wrapper .contactUs{ width: 140px; height: 104px; background: url('../images/down_1_out.jpg') no-repeat; float: left;}
 .wrapper .contactUs:hover{ background: url('../images/down_1_in.jpg') no-repeat; }
 .wrapper .preLoad { display: none; background: url('../images/down_1_in.jpg') no-repeat;}
@@ -69,7 +70,11 @@ body{ margin: 0px; padding: 0px; background: #999999;}
 </div>
 <div class="footer">
 	<img class="preLoad" src="../images/down_1_in.jpg" />
+	{if $loginType == 'user'}	
 	<div class="contactUs"></div>
+	{else}
+	<div class="footerLeft"></div>
+	{/if}
 	<div class="copyright">
 		<div>
 		{$requirement}<BR>
@@ -81,7 +86,6 @@ body{ margin: 0px; padding: 0px; background: #999999;}
 </div>
 </div>
 <script>
-Msg('{$Msg}');
 {literal}
 ;(function($){
 	$(".contactUs").click(function(){
@@ -89,6 +93,7 @@ Msg('{$Msg}');
 	});
 })(jQuery);
 {/literal}
+Msg('{$Msg}');
 </script>
 </body>
 </html>
