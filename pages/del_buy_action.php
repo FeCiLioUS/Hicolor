@@ -45,6 +45,7 @@ $buyer= $LOGIN_OBJ['LOGIN_ID'];
 	   }
    }
 
+
 //刪除購買;
 $DEL_NM="DEL_BUY";
 $DEL_TABLES_NM="SALES_CAR_DETAIL";
@@ -70,6 +71,7 @@ foreach($_REQUEST[del_sub] as $KEY=>$VALUE){
    unset($_REQUEST[del_sub]);
    if($BUYED_UPDATE_R[0]==0){
    }else{
+		$_REQUEST[del_sub] = array();
        if($BUYED_UPDATE_R[0]==1){
             $_REQUEST[del_sub][1]=$BUYED_UPDATE_R[1][SEQ_NBR];
        }else if($BUYED_UPDATE_R[0]>1){
@@ -79,7 +81,7 @@ foreach($_REQUEST[del_sub] as $KEY=>$VALUE){
 		       $_REQUEST[del_sub][$r]=$VALUE1[SEQ_NBR];
 	        }
        }
-	   $file_rout="./updata/".$LOG_PRVL.sprintf("%04d",$CHECK_BUYED_R[1][SEQ_NBR])."/".$VALUE;
+	   $file_rout="../updata/".$LOG_PRVL.sprintf("%04d",$CHECK_BUYED_R[1][SEQ_NBR])."/".$VALUE;
        $DEL_NM="DEL_upload";
        $DEL_TABLES_NM="SALES_CAR_UPLOAD";
        $Msg=DEL_ACTION($DEL_NM,$DEL_TABLES_NM,$DEL_WHERE_FIELD="",$DEL_FILES_SEQ="",$DEL_FILES_TAB_NM="",$UPDATE_DATA="",$PASS_DEL_AD="",$file_rout);
