@@ -6,7 +6,7 @@ require_once($__DIR__."/../middleware/hicolor.php");
 $hicolor= new Hicolor();
 //查詢是否登入;
 $LOGIN_OBJ=USER_LOGIN();
-if($LOGIN_OBJ["LOG_TAB"]!=1){    
+if($LOGIN_OBJ["LOG_TAB"]!=1){
     $Msg=urlencode("您尚未登入，請先登入會員！");
     ERRO_HEAD($Msg);
 }
