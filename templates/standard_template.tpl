@@ -13,11 +13,15 @@
 </title>
 <link rel="stylesheet" type="text/css" href="../library/framework/jquery/jquery-ui-1.9.0.custom/css/ui-lightness/jquery-ui-1.9.0.custom.min.css">
 <script src="../library/framework/jquery/jquery-1.6.4.js"></script>
+<!--script src="../library/framework/jquery/jquery-1.9.1.min.js"></script-->
 <script src="../library/framework/jquery/jquery-ui-1.9.0.custom/js/jquery-ui-1.9.0.custom.min.js"></script>
 <script src="../js/jquery-text-overflow/jquery.text-overflow.js"></script>
 <script src="../js/jquery-getUrlParam/jquery.getUrlParam.js"></script>
 <script src="../js/jquery-cookie/jquery.cookie.js"></script>
+<script src="../js/jquery.validate.min.js"></script>
+<script src="../js/jquery.tablednd.js"></script>
 <script>
+var msg = '{$Msg}';
 {literal}
 function Msg(msg){
 	if(msg.length!=0){
@@ -93,7 +97,7 @@ body{ margin: 0px; padding: 0px; background: #999999;}
 	});
 })(jQuery);
 {/literal}
-Msg('{$Msg}');
+Msg(msg);
 </script>
 </body>
 </html>
