@@ -15,6 +15,20 @@
 <script>
 {literal}
 $(".navigationMenu .about").addClass("selected");
+function file_open(file){
+	var mode=file.split(".")
+	var mode=mode.reverse();
+	$('.newsFile').remove();
+    switch(mode[0]){
+	    case"mp3":case"doc":case"pdf":
+		window.open(file,'Upload',"toolbar=no,location=no,directory=no,status=yes,scrollbars=no,resizable=no");
+		break;
+		default:	
+		var linkItem = $('<a class="newsFile"></a>').attr({'href': file, 'target': '_blank'}).appendTo($('body'));
+		linkItem.get(0).click();		
+	    break;
+	}
+}
 {/literal}
 </script>
 <div class="title">
@@ -42,7 +56,7 @@ $(".navigationMenu .about").addClass("selected");
 			{if $list.UPLOAD_TAB == 1}				
 			<div class="newsUpload">附加檔：
 			{foreach from= $list.UPLOAD_DATA item= uploadList}
-				<a href="javascript:file_open('../news_file/{$uploadList.FILE_NM})">{$uploadList.FILE_NICK}</a>
+				<a href="javascript:file_open('../news_file/{$uploadList.FILE_NM}');">{$uploadList.FILE_NICK}</a>
 			{/foreach}
 			<div>			
 			{/if}
