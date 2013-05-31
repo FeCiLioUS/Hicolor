@@ -96,7 +96,7 @@
 			</li>
 			<li class="memberCenter">
 				<ol class="subMenu">
-					{if $loginStatus == false}
+					{if $loginStatus == 'false'}
 					<li><a href="regist.php">加入會員</a></li>
 					{else}
 					<li><a href="fix_regist.php">會員資料修改</a></li>
