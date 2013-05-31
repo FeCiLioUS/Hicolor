@@ -5,11 +5,13 @@ require_once($__DIR__."/../library/main.php");
 class Hicolor extends Smarty{
 	var $config;
 	var $FREE_MODE;
+	public $loginInfo;
 	function Hicolor($type = 'user', $isDefault = false){	
 		$__DIR__= dirname(__FILE__);
 		$this-> template_dir= "../templates";
 		$this-> compile_dir= "../templates_c";
 		$this-> cache_dir= "../cache";
+		
 		//載入定義檔
 		$iniPath= $__DIR__ . '\\..\\config\\' . preg_replace('/^.+\\\/', '', __CLASS__) . '.ini';
 		$ret = $this -> readConfigFile($iniPath);
@@ -36,7 +38,7 @@ class Hicolor extends Smarty{
 			//載入HEADER模組
 			$this-> assign("loginType", "user");
 			//檢查登入狀態
-			USER_LOGIN();	
+			$loginObj = USER_LOGIN();	
 		} else {
 			//載入登入模組
 			$this-> assign("logInfo", "../templates/admin_login.tpl");
@@ -44,19 +46,22 @@ class Hicolor extends Smarty{
 			//載入HEADER模組
 			$this-> assign("headerPath", "../templates/adminHeader.tpl");
 			//檢查登入狀態
-			ADMIN_LOGIN();
+			$loginObj = ADMIN_LOGIN();			
 			$fp     = fopen("../tmp/counter.txt","rw");
-			$num    = fgets($fp, 5);			
-			$this-> assign("counter", $num);
-			if (LOG_TAB == 0 && $isDefault == false) {				
-				//header('location:../pages/admin.php?Msg=尚未登入！');
+			$num    = fgets($fp, 5);		
+			$this-> assign("counter", $num);			
+			if ($loginObj['LOG_TAB'] == 0 && $isDefault == false) {			
+				header('location:../pages/admin.php?Msg=尚未登入！');
+				exit();
 			}
-		}		
-		if(LOG_TAB == 0){
-			$this-> assign("loginStatus", false);
-		}else{
-			$this-> assign("loginStatus", true);
 		}
+		$this-> loginInfo = $loginObj;
+		//echo $this->logInfo;
+		if($loginObj['LOG_TAB'] == 0){
+			$this-> assign("loginStatus", 'false');
+		}else{
+			$this-> assign("loginStatus", 'true');
+		}		
 	}
 	/*
 	 * @Purpose: read configuration from file.
