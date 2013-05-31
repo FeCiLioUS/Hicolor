@@ -32,10 +32,17 @@ td{
 {literal}
 function Msg(msg){
 	if(msg.length!=0){
-		if(Msg == "您尚未登入，請先登入會員！"){
-			alert(Msg);
+		if(msg == "檔案上傳成功！" || msg == "您尚未登入，請先登入會員！"){
+			alert(msg);			
 			if(window.opener) {
-				window.close();
+				var search = window.opener.location.search, paramsString = search.substr(1), params = paramsString.split('&'), paramsArray = [];
+				$(params).each(function (index, item) {
+					if (item.split("=")[0] != "Msg") {
+						paramsArray.push(item);
+					}
+				});
+				window.opener.location = window.opener.location.pathname + '?' + paramsArray.join('&');
+				window.close();	
 			}
 		}else {
 			alert(msg);
