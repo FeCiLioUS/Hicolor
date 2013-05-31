@@ -157,6 +157,7 @@ body {
 }
 .detail td.orderListTable tr td{
 	vertical-align: middle;
+	border-color: #FFFFFF;
 }
 .detail td.orderListTable tr.total{
 	font-weight: bold;
