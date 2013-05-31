@@ -15,7 +15,7 @@
 .logInfo .categories .list li a:hover{ text-decoration: underline;}
 {/literal}
 </style>
-{if $loginStatus == true}
+{if $loginStatus == 'true'}
 <div class="logInfo">
 	<form action="user_logout_action.php" method="post" name="user_login">
 		<div class="memberLogOut">
