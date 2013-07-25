@@ -156,7 +156,7 @@ $(".navigationMenu .product").addClass("selected");
 					</td>
 				</tr>
 			{else}
-				<tr><td>尚無任何此規格的商品！</td></tr>
+				<tr><td colspan='3' align="center">尚無任何此規格的商品！</td></tr>
 			{/if}
 		</table>
 		<div class="addToBasket">
