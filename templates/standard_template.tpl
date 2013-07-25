@@ -26,6 +26,11 @@ var msg = '{$Msg}';
 function Msg(msg){
 	if(msg.length!=0){
 		alert(msg);
+		if(msg == "尚未登入！") {
+			if(window.opener) {
+				window.close();	
+			}
+		}
 		return;
 	}
 }
