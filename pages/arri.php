@@ -22,7 +22,7 @@ if(eregi("[、]",$KIND_SELECT_R[1][NAME])){
 }
 
 //載入產品規格;
-$SUBKIND_LIST_R=SEL("SUBKIND_LIST","SEQ_NBR,PRO_SUBKIND_NAME","PRODUCT_SUBKIND","PRO_KIND=".$_GET[MODE]." && SEQ_NBR != 1 && SEQ_NBR != 2","PRO_SUBKIND_NAME asc , SEARC_SUBKIND_LEV asc","");
+$SUBKIND_LIST_R=SEL("SUBKIND_LIST","SEQ_NBR,PRO_SUBKIND_NAME","PRODUCT_SUBKIND","PRO_KIND=".$_GET[MODE]." && SEQ_NBR != 1 && SEQ_NBR != 2","SEARC_SUBKIND_LEV asc","");
 $subKindList= array();   
 $subKindList["A"]= "--選擇其它 '".$KIND_SELECT_R[1][NAME]."' 樣式--";
 
