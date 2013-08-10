@@ -30,7 +30,9 @@ function photo_upload(seq){
 }
 
 function fix_product(num){
-    window.location.href="product_fix.php?SEQ_NUM="+num+"&PAGE=<? echo $PAGE_NOW.$URL_AUG; ?>";
+{/literal}
+    window.location.href="product_fix.php?SEQ_NUM=" + num + "&PAGE={$pageNow}{$urlAug}";
+{literal}
 }
 {/literal}
 </script>
@@ -276,7 +278,7 @@ table th {
 						<td height="34" class="style32"><div align="center">刪 除</div></td>
 					</tr>
 					{if $productsList|@count == 0}
-						<tr valign="middle" class="PS"><td height="35" colspan="8"><div align="center" class="style32 style58">查無任何消息！</div></td></tr>						
+						<tr valign="middle" class="PS"><td height="35" colspan="8"><div align="center" class="style32 style58">查無任何產品！</div></td></tr>						
 					{else}
 						{foreach name='productsData' from=$productsList item=itemData}						
 						<tr valign="middle" bgcolor="#D9D9D9" class="style26">
